@@ -1,0 +1,57 @@
+class Solution {
+    public ListNode insertAtLast(int val,ListNode head){
+        ListNode temp = head;
+        ListNode node = new ListNode(val);
+        if(head==null){
+            return node;
+        }
+        while(temp.next != null){
+            temp = temp.next;
+        }
+        temp.next=node;
+        return head;
+    }
+    public int findLength(ListNode list){
+        ListNode temp = list;
+        int count=0;
+        while(temp!=null){
+            count++;
+            temp = temp.next;
+        }
+        return count;
+    }
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode newList = null;
+        if((findLength(list1)==0 && findLength(list2)>0)){
+            return list2;
+        }
+        if((findLength(list1)>0 && findLength(list2)==0)){
+            return list1;
+        }
+        while(list1!=null && list2!=null){
+            if(list1.val < list2.val){
+                newList = insertAtLast(list1.val,newList);
+                list1 = list1.next;
+            }
+            else if(list1.val == list2.val){
+                newList = insertAtLast(list1.val,newList);
+                newList = insertAtLast(list2.val,newList);
+                list1 = list1.next;
+                list2 = list2.next;
+            }
+            else{
+                newList = insertAtLast(list2.val,newList);
+                list2 = list2.next;
+            }
+        }
+        while(list1==null && list2!=null){
+            newList = insertAtLast(list2.val,newList);
+            list2 = list2.next;
+        }
+        while(list1 != null && list2 == null){
+            newList = insertAtLast(list1.val,newList);
+            list1 = list1.next;
+        }
+        return newList;
+    }
+}
