@@ -1,0 +1,34 @@
+import java.util.*;
+public class Main{
+  public static void main(String[] args){
+    Scanner sc = new Scanner(System.in);
+    int T = sc.nextInt();
+    int N = sc.nextInt();
+    int A = sc.nextInt();
+    int B = sc.nextInt();
+    int C = sc.nextInt();
+    int D = sc.nextInt();
+    int val1=0,val2=0,sum=0;
+    for(int k=0;k<T;k++){
+      for(int i=1;i<=N;i++){
+        val1 = (A*i)+B;
+        val2 = (C*i)+D;
+        if(val1 < val2){
+          sum += (GCD(val2,val1))%998244353;
+        }
+        else{
+          sum += (GCD(val1,val2))%998244353;
+        }
+      }
+      System.out.println(sum);
+    }
+  }
+  public static int GCD(int a,int b){
+    if(b == 0){
+      return a;
+    }
+    else{
+      return GCD(b,a%b);
+    }
+  }
+}
