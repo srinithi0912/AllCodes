@@ -1,0 +1,77 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        // Fast I/O for performance
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = null;
+        
+        String line = br.readLine();
+        if (line == null) return;
+        st = new StringTokenizer(line);
+        
+        int t = Integer.parseInt(st.nextToken());
+        StringBuilder sb = new StringBuilder();
+        
+        while (t-- > 0) {
+            while (st == null || !st.hasMoreTokens()) {
+                st = new StringTokenizer(br.readLine());
+            }
+            int n = Integer.parseInt(st.nextToken());
+            int x = Integer.parseInt(st.nextToken());
+            int s = Integer.parseInt(st.nextToken());
+            
+            while (st == null || !st.hasMoreTokens()) {
+                st = new StringTokenizer(br.readLine());
+            }
+            String u = st.nextToken();
+            
+            int unoccupied = x;
+            int rem = 0;
+            int ct = 0; // Floating ambiverts
+            int kickedOut = 0;
+            
+            for (int i = 0; i < n; i++) {
+                char ch = u.charAt(i);
+                
+                if (ch == 'I') {
+                    if (unoccupied > 0) {
+                        unoccupied--;
+                        rem += (s - 1);
+                    } else {
+                        kickedOut++;
+                    }
+                } else if (ch == 'E') {
+                    if (rem > 0) {
+                        rem--;
+                    } else if (ct > 0 && unoccupied > 0) {
+                        // Move a floating ambivert to open a new table
+                        ct--;
+                        unoccupied--;
+                        rem += (s - 1); 
+                    } else {
+                        kickedOut++;
+                    }
+                } else if (ch == 'A') {
+                    if (rem > 0) {
+                        rem--;
+                        ct++; // Mark as floating
+                    } else if (unoccupied > 0) {
+                        unoccupied--;
+                        rem += (s - 1);
+                    } else {
+                        kickedOut++;
+                    }
+                }
+            }
+            
+            // Maximum seated is total friends minus those kicked out
+            sb.append(n - kickedOut).append("\n");
+        }
+        
+        System.out.print(sb);
+    }
+}
