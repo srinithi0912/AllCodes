@@ -1,0 +1,60 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        // Fast I/O for performance
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = null;
+        
+        String line = br.readLine();
+        if (line == null) return;
+        st = new StringTokenizer(line);
+        
+        int t = Integer.parseInt(st.nextToken());
+        StringBuilder sb = new StringBuilder();
+        
+        while (t-- > 0) {
+            // Read n and k
+            while (st == null || !st.hasMoreTokens()) {
+                st = new StringTokenizer(br.readLine());
+            }
+            int n = Integer.parseInt(st.nextToken());
+            int k = Integer.parseInt(st.nextToken());
+            
+            // Read binary string s
+            while (st == null || !st.hasMoreTokens()) {
+                st = new StringTokenizer(br.readLine());
+            }
+            String s = st.nextToken();
+            
+            // Track the count of '1's for each remainder group modulo k
+            int[] counts = new int[k];
+            for (int i = 0; i < n; i++) {
+                if (s.charAt(i) == '1') {
+                    counts[i % k]++;
+                }
+            }
+            
+            // Check if all groups have an even number of '1's
+            boolean possible = true;
+            for (int i = 0; i < k; i++) {
+                if (counts[i] % 2 != 0) {
+                    possible = false;
+                    break;
+                }
+            }
+            
+            if (possible) {
+                sb.append("YES\n");
+            } else {
+                sb.append("NO\n");
+            }
+        }
+        
+        // Print all outputs at once
+        System.out.print(sb);
+    }
+}
